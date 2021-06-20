@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             this.setImageResource(R.drawable.ic_launcher_foreground)
         }
         swipe_action_view.setSwipeViewContainer(imageView)
+        swipe_action_view.anchorBackOnRelease(true)
         swipe_action_view.swipeActionCallback(object : SwipeActionView.SwipeActionCallback {
             override fun onSwingComplete() {
                 Toast.makeText(this@MainActivity, "Action triggered", Toast.LENGTH_SHORT).show()

@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
         }
         swipe_action_view.setSwipeViewContainer(imageView)
         swipe_action_view.anchorBackOnRelease(true)
+        swipe_action_view.vibrateOnSuccess(true)
         swipe_action_view.swipeActionCallback(object : SwipeActionView.SwipeActionCallback {
             override fun onSwingComplete() {
                 Toast.makeText(this@MainActivity, "Action triggered", Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }

@@ -7,11 +7,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.RelativeLayout
+import me.devansh.swing.util.Utils
 import kotlin.math.roundToInt
 
 
@@ -24,6 +24,7 @@ class SwipeActionView @JvmOverloads constructor(
     private var swipeIndicatorContainer: RelativeLayout
 
     private var anchorBackOnRelease = false
+    private var vibrateOnSuccess = false
 
     enum class Orientation {
         HORIZONTAL, VERTICAL
@@ -35,7 +36,6 @@ class SwipeActionView @JvmOverloads constructor(
     interface SwipeActionCallback {
         fun onSwingComplete()
     }
-
     private var swipeActionCallback: SwipeActionCallback? = null
 
     init {
@@ -97,9 +97,13 @@ class SwipeActionView @JvmOverloads constructor(
                     } else {
                         v.left
                     }
-                    Log.e("library", "pointOfTouch:$pointOfTouch | target:$targetPoint")
                     if (pointOfTouch >= targetPoint) {
-                        swipeActionCallback?.onSwingComplete()
+                        swipeActionCallback?.let {
+                            it.onSwingComplete()
+                            if (vibrateOnSuccess) {
+                                Utils.vibrateDevice(context)
+                            }
+                        }
                         if (orientation == Orientation.VERTICAL) {
                             params.topMargin = 0
                         } else {
@@ -170,6 +174,10 @@ class SwipeActionView @JvmOverloads constructor(
 
     fun swipeActionCallback(callback: SwipeActionCallback) {
         swipeActionCallback = callback
+    }
+
+    fun vibrateOnSuccess(vibrate: Boolean) {
+        vibrateOnSuccess = vibrate
     }
 
 }
